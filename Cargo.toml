@@ -1,0 +1,51 @@
+[package]
+name = "probe-rs-issue"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+esp-hal-embassy = { version = "0.3.0", features = [
+    "esp32c6",
+    #"time-timg0",
+] }
+esp-hal = { version = "0.20.1", features = [
+    "esp32c6",
+] }
+esp-backtrace = { version = "0.14.0", features = [
+    "exception-handler",
+    "panic-handler",
+    "esp32c6",
+    "defmt",
+] }
+esp-alloc = "0.4.0"
+
+embassy-executor = { version = "0.6.0", features = [
+    "nightly",
+    "task-arena-size-40960",
+    "defmt",
+] }
+embassy-time = { version = "0.3.1", features = ["generic-queue-8", "defmt"] }
+
+defmt = "0.3.8"
+defmt-rtt = "0.4.1"
+embassy-embedded-hal = { version = "0.2.0", features = ["time"] }
+static_cell = { version = "2.1", features = ["nightly"] }
+modular-bitfield = "0.11.2"
+
+[profile.release]
+opt-level = "z"
+codegen-units = 1
+debug = 2
+debug-assertions = false
+incremental = false
+lto = 'fat'
+overflow-checks = false
+
+[profile.dev]
+opt-level = "z"
+lto = 'fat'
+panic = "abort"
+
+[patch.crates-io]
+esp-hal = { git = "https://github.com/dragonnn/esp-hal.git", branch = "rtc-set" }
+esp-hal-embassy = { git = "https://github.com/dragonnn/esp-hal.git", branch = "rtc-set" }
